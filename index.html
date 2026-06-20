@@ -12,8 +12,8 @@
     <style>
         :root {
             --primary-yellow: #ffeb00;  
-            --deep-black: #050505;      
-            --card-bg: rgba(8, 8, 8, 0.75);
+            --deep-black: #000000;      
+            --card-bg: rgba(12, 12, 12, 0.85);
             --text-light: #ffffff;
             --text-muted: #aaaaaa;
             --text-dark: #000000;
@@ -24,41 +24,22 @@
 
         html {
             scroll-behavior: smooth;
+            background-color: var(--deep-black);
         }
 
         body {
             margin: 0;
             padding: 0;
             font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
-            background-color: #000000;
+            background-color: var(--deep-black);
             color: var(--text-light);
             overflow-x: hidden;
             letter-spacing: 0.5px;
+            position: relative;
         }
 
-        /* PARALLAX LAYER 1: Deep Cinematic Gradient Plane - Shifts up smoothly as you scroll */
-        #cinematic-bg {
-            position: fixed;
-            top: -20vh; 
-            left: 0;
-            width: 100vw;
-            height: 140vh; 
-            background: linear-gradient(180deg, 
-                #ffeb00 0%, 
-                #ffeb00 12%,   
-                #000000 65%,   
-                #000000 100%
-            );
-            z-index: -3;
-            pointer-events: none;
-            will-change: transform;
-            transform: translateY(calc(var(--scroll-y) * -0.25)) scale(1.02);
-            transform-origin: center center;
-        }
-
-        /* PARALLAX LAYER 2: High-Visibility Cyber Grid Matrix 
-           FIX: Transformed into a static viewport frame that seamlessly shifts texture positioning
-           internally. This provides an infinite, non-breaking loop across the entire document canvas.
+        /* PARALLAX LAYER 1: Cyber Grid Matrix 
+           Configured as a static viewport overlay that seamlessly shifts texture loops
         */
         #bg-grid-overlay {
             position: fixed;
@@ -66,64 +47,64 @@
             left: 0;
             width: 100vw;
             height: 100vh;
-            background-image: linear-gradient(rgba(255, 235, 0, 0.12) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255, 235, 0, 0.12) 1px, transparent 1px);
-            background-size: 50px 50px;
+            background-image: linear-gradient(rgba(255, 235, 0, 0.07) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 235, 0, 0.07) 1px, transparent 1px);
+            background-size: 60px 60px;
             background-position-y: calc(var(--scroll-y) * -0.15);
-            z-index: -2;
+            z-index: 1;
             pointer-events: none;
         }
 
         /* Ambient Parallax Grid Glow Space Platform Wrapper 
-           FIX: Removed from the car viewer coordinate loop and setup as an absolute overlay
-           that matches the background matrix vector step-for-step across all document sections.
+           FIX: Set up as a document-level absolute flow layer covering the total content height
         */
         #glow-particles-container {
             position: absolute;
             top: 0;
             left: 0;
-            width: 100vw;
+            width: 100%;
             height: 100%;
-            min-height: 100vh;
-            z-index: -1;
+            z-index: 2;
             pointer-events: none;
             overflow: hidden;
-            will-change: transform;
-            transform: translateY(calc(var(--scroll-y) * 0.15));
         }
 
+        /* REVISED: Massively expanded, ultra-bright glowing orb structures */
         .glow-particle {
             position: absolute;
             left: var(--x);
             top: var(--y);
-            width: 4px;
-            height: 4px;
+            width: var(--size, 25px);
+            height: var(--size, 25px);
             background-color: var(--primary-yellow);
             border-radius: 50%;
-            /* Layered dual-blur glow structure to mimic a glowing lamp assembly */
-            box-shadow: 0 0 10px 4px rgba(255, 235, 0, 0.4),
-                        0 0 30px 12px rgba(255, 235, 0, 0.15);
+            /* Multi-layered extreme glow envelope for high-intensity luminescence */
+            box-shadow: 0 0 25px 10px rgba(255, 235, 0, 0.6),
+                        0 0 60px 25px rgba(255, 235, 0, 0.3),
+                        0 0 120px 50px rgba(255, 235, 0, 0.15);
             animation: breatheGlow var(--pulse-duration) ease-in-out infinite alternate;
             animation-delay: var(--pulse-delay);
+            will-change: opacity, transform;
+            transform: translateY(calc(var(--scroll-y) * 0.08));
         }
 
         @keyframes breatheGlow {
             0% {
-                opacity: 0.05;
-                filter: brightness(0.6);
+                opacity: 0.2;
+                transform: translateY(calc(var(--scroll-y) * 0.08)) scale(0.85);
             }
             100% {
-                opacity: 0.70;
-                filter: brightness(1.4);
+                opacity: 0.9;
+                transform: translateY(calc(var(--scroll-y) * 0.08)) scale(1.15);
             }
         }
 
         /* Scroll Animation Reveal Targets */
         .reveal {
             opacity: 0;
-            transform: translateY(50px);
-            transition: opacity 1.2s cubic-bezier(0.215, 0.610, 0.355, 1), 
-                        transform 1.2s cubic-bezier(0.215, 0.610, 0.355, 1);
+            transform: translateY(40px);
+            transition: opacity 1s cubic-bezier(0.215, 0.610, 0.355, 1), 
+                        transform 1s cubic-bezier(0.215, 0.610, 0.355, 1);
         }
 
         .reveal.active {
@@ -137,9 +118,9 @@
             justify-content: space-between;
             align-items: center;
             padding: 30px 60px;
-            background-color: rgba(0, 0, 0, 0.9); 
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px); 
+            background-color: rgba(0, 0, 0, 0.95); 
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px); 
             border-bottom: 1px solid rgba(255, 235, 0, 0.15);
             position: sticky;
             top: 0;
@@ -158,7 +139,7 @@
             letter-spacing: 6px;
             font-weight: 900;
             font-size: 1.6rem;
-            text-shadow: 0 0 10px rgba(255, 235, 0, 0.15);
+            text-shadow: 0 0 15px rgba(255, 235, 0, 0.3);
             transition: all 0.3s ease;
             cursor: pointer;
             user-select: none;
@@ -232,6 +213,7 @@
             justify-content: center;
             align-items: center;
             background: transparent;
+            z-index: 10;
         }
 
         #hero-text-container {
@@ -245,7 +227,7 @@
             justify-content: flex-start; 
             padding-top: 7vh; 
             align-items: center;
-            z-index: 10;
+            z-index: 15;
             pointer-events: none;
             transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
             will-change: transform;
@@ -260,7 +242,7 @@
             margin: 0 0 10px 0;
             font-weight: 900;
             color: var(--primary-yellow); 
-            text-shadow: 0 0 40px rgba(255, 235, 0, 0.25);
+            text-shadow: 0 0 40px rgba(255, 235, 0, 0.35);
         }
 
         #hero p {
@@ -271,10 +253,10 @@
             text-transform: uppercase;
             margin: 0;
             opacity: 0.9;
-            text-shadow: 0 4px 15px rgba(0,0,0,0.6);
+            text-shadow: 0 4px 15px rgba(0,0,0,0.8);
         }
 
-        /* PARALLAX LAYER 3: Midground 3D Model Viewport Containment Box */
+        /* PARALLAX LAYER 3: Interactive 3D Model Viewport */
         #car-viewer {
             width: 100%;
             height: 100%;
@@ -282,12 +264,12 @@
             top: 0;
             left: 0;
             background: transparent;
-            z-index: 1;
+            z-index: 12;
             display: flex;
             flex-direction: column;
             overflow: hidden;
             will-change: transform;
-            transform: translateY(calc(var(--scroll-y) * 0.35));
+            transform: translateY(calc(var(--scroll-y) * 0.28));
         }
 
         model-viewer {
@@ -296,7 +278,7 @@
             background-color: transparent !important;
             background: transparent !important;
             position: relative;
-            z-index: 2;
+            z-index: 14;
             pointer-events: none;
             --interpolation-decay: 5;
             transition: pointer-events 0.3s ease;
@@ -308,8 +290,8 @@
             bottom: 140px; 
             left: 60px;
             z-index: 25;
-            background: rgba(10, 10, 10, 0.75);
-            border: 1px solid rgba(255, 235, 0, 0.3);
+            background: rgba(10, 10, 10, 0.85);
+            border: 1px solid rgba(255, 235, 0, 0.4);
             color: #ffffff;
             padding: 12px 24px;
             border-radius: 4px;
@@ -339,7 +321,7 @@
             background: var(--primary-yellow);
             color: #000000;
             border-color: var(--primary-yellow);
-            box-shadow: 0 0 20px rgba(255, 235, 0, 0.4);
+            box-shadow: 0 0 20px rgba(255, 235, 0, 0.5);
         }
 
         /* Lower Media HUD Bar */
@@ -349,7 +331,7 @@
             left: 0;
             width: 100%;
             padding: 45px 60px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.7) 60%, transparent 100%);
+            background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.8) 70%, transparent 100%);
             border-top: none;
             text-align: left;
             z-index: 20;
@@ -364,7 +346,7 @@
             margin: 0;
             font-size: 1.05rem;
             line-height: 1.7;
-            color: rgba(255, 255, 255, 0.85);
+            color: rgba(255, 255, 255, 0.9);
             letter-spacing: 0.5px;
             max-width: 60%;
         }
@@ -397,7 +379,7 @@
             box-shadow: 0 10px 25px rgba(220, 39, 67, 0.35);
         }
 
-        /* FULLSCREEN ADJUSTMENTS: Retains grid patterns inside isolated hardware windows */
+        /* FULLSCREEN ADJUSTMENTS */
         #car-viewer:fullscreen .viewer-details {
             display: none !important;
         }
@@ -409,7 +391,7 @@
             background-size: 50px 50px !important;
         }
 
-        /* Webkit layout platform mapping mirror */
+        /* Webkit isolated presentation rules */
         #car-viewer:-webkit-full-screen .viewer-details {
             display: none !important;
         }
@@ -444,6 +426,7 @@
             font-weight: 900;
             text-align: center;
             margin-bottom: 90px;
+            text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
         }
 
         .section-title::after {
@@ -483,35 +466,35 @@
 
         .team-card {
             background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 235, 0, 0.1);
             border-radius: 12px;
             overflow: hidden;
             text-align: center;
             width: 290px; 
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1), 
                         border-color 0.5s, box-shadow 0.5s;
         }
 
         .team-card:hover {
             transform: translateY(-12px);
-            border-color: rgba(255, 235, 0, 0.35);
-            box-shadow: 0 30px 50px rgba(0, 0, 0, 0.8);
+            border-color: rgba(255, 235, 0, 0.45);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.9), 0 0 20px rgba(255, 235, 0, 0.1);
         }
 
         .member-image-slot {
             width: 100%;
             height: 310px;
-            background-color: #0a0a0a;
+            background-color: #080808;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: #666666;
+            color: #555555;
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 235, 0, 0.05);
         }
 
         .member-info {
@@ -565,13 +548,15 @@
         }
 
         .sponsor-card {
-            background: rgba(255, 255, 255, 0.01);
-            border: 1px dashed rgba(255, 255, 255, 0.15);
+            background: rgba(15, 15, 15, 0.8);
+            border: 1px dashed rgba(255, 235, 0, 0.2);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: background 0.4s, border-style 0.4s, border-color 0.4s, color 0.4s;
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            transition: background 0.4s, border-style 0.4s, border-color 0.4s, color 0.4s, box-shadow 0.4s;
             color: #666666;
             font-weight: 700;
             font-size: 0.9rem;
@@ -579,15 +564,16 @@
             letter-spacing: 2px;
         }
 
-        .platinum .sponsor-card { width: 380px; height: 180px; background: rgba(255,255,255,0.015); }
+        .platinum .sponsor-card { width: 380px; height: 180px; }
         .gold .sponsor-card { width: 300px; height: 140px; }
         .silver .sponsor-card { width: 220px; height: 110px; font-size: 0.8rem; }
 
         .sponsor-card:hover {
-            background: rgba(255, 235, 0, 0.03);
+            background: rgba(255, 235, 0, 0.04);
             border-style: solid;
             border-color: var(--primary-yellow);
             color: var(--text-light);
+            box-shadow: 0 0 15px rgba(255, 235, 0, 0.15);
         }
 
         .portfolio-grid {
@@ -599,19 +585,19 @@
 
         .portfolio-card {
             background: var(--card-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
             padding: 55px;
             border-radius: 12px;
             width: 340px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 235, 0, 0.1);
             border-top: 4px solid var(--primary-yellow);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s;
         }
 
         .portfolio-card:hover {
             transform: translateY(-8px);
-            box-shadow: 0 25px 45px rgba(0,0,0,0.7);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.8), 0 0 15px rgba(255, 235, 0, 0.05);
         }
 
         .portfolio-card h4 {
@@ -649,7 +635,7 @@
             color: var(--primary-yellow);
             border-color: var(--primary-yellow);
             transform: scale(1.02);
-            box-shadow: 0 0 20px rgba(255, 235, 0, 0.35);
+            box-shadow: 0 0 20px rgba(255, 235, 0, 0.4);
         }
 
         #contact {
@@ -660,17 +646,17 @@
 
         .contact-box {
             background: var(--card-bg);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 235, 0, 0.15);
+            border: 1px solid rgba(255, 235, 0, 0.2);
             border-radius: 12px;
             padding: 70px 50px;
-            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8), 0 0 30px rgba(255, 235, 0, 0.05);
         }
 
         .contact-box p {
             font-size: 1.1rem;
-            color: rgba(255, 255, 255, 0.8);
+            color: rgba(255, 255, 255, 0.85);
             line-height: 1.8;
             margin: 0 0 45px 0;
             letter-spacing: 0.3px;
@@ -678,9 +664,11 @@
 
         .institutional-logos {
             position: relative;
-            z-index: 30;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
-            background-color: rgba(3, 3, 3, 0.95);
+            z-index: 35;
+            border-top: 1px solid rgba(255, 235, 0, 0.1);
+            background-color: rgba(2, 2, 2, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
             padding: 80px 20px;
             text-align: center;
         }
@@ -727,7 +715,7 @@
             max-height: 100%;
             max-width: 100%;
             object-fit: contain;
-            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.6));
+            filter: drop-shadow(0 6px 15px rgba(0, 0, 0, 0.8));
         }
 
         .logo-item p {
@@ -741,12 +729,12 @@
 
         footer {
             position: relative;
-            z-index: 30;
+            z-index: 35;
             text-align: center;
             padding: 50px 20px;
             font-size: 0.8rem;
             color: #555555;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 235, 0, 0.1);
             background-color: #000000;
             letter-spacing: 1.5px;
         }
@@ -754,7 +742,6 @@
 </head>
 <body>
 
-    <div id="cinematic-bg"></div>
     <div id="bg-grid-overlay"></div>
     
     <div id="glow-particles-container"></div>
@@ -955,30 +942,54 @@
         }
         window.scrollTo(0, 0);
 
-        // Ambient cyber glow array generation script
-        (function initializeGridGlowSystem() {
+        // REVISED: Contextual, responsive document-wide macro glow generator script
+        function initializeGridGlowSystem() {
             const glowTargetBox = document.getElementById('glow-particles-container');
-            const totalGlowPoints = 55; // Increased density matrix to scatter evenly across long depth paths
+            glowTargetBox.innerHTML = ''; // Sanitize duplicate execution passes
+            
+            // Acquire the actual live structural footprint height of the body
+            const bodyBoundingHeight = Math.max(
+                document.body.scrollHeight, 
+                document.body.offsetHeight, 
+                document.documentElement.clientHeight, 
+                document.documentElement.scrollHeight, 
+                document.documentElement.offsetHeight
+            );
+
+            const documentPixelsToVwUnits = bodyBoundingHeight / window.innerWidth * 100;
+            const totalGlowPoints = 40; 
 
             for (let i = 0; i < totalGlowPoints; i++) {
                 const node = document.createElement('div');
                 node.classList.add('glow-particle');
                 
-                // Random positioning across coordinate fields running deep into lower sections (500vh space map)
+                // Position seamlessly across the full calculated vertical depth metrics
                 const nodeX = Math.random() * 100; 
-                const nodeY = Math.random() * 500; 
+                const nodeY = Math.random() * documentPixelsToVwUnits; 
                 
-                const nodeBreatheDuration = 3.5 + (Math.random() * 4); 
-                const nodePhaseOffset = Math.random() * -6; // Phase displacement to mix up synchronized looping
+                // Variable large sizes (from 15px up to 55px width fields)
+                const nodeSize = 15 + (Math.random() * 40);
+                const nodeBreatheDuration = 4 + (Math.random() * 5); 
+                const nodePhaseOffset = Math.random() * -8; 
 
                 node.style.setProperty('--x', `${nodeX}vw`);
-                node.style.setProperty('--y', `${nodeY}vh`);
+                node.style.setProperty('--y', `${nodeY}vw`);
+                node.style.setProperty('--size', `${nodeSize}px`);
                 node.style.setProperty('--pulse-duration', `${nodeBreatheDuration}s`);
                 node.style.setProperty('--pulse-delay', `${nodePhaseOffset}s`);
                 
                 glowTargetBox.appendChild(node);
             }
-        })();
+        }
+
+        // Initialize grid glow system after execution paths open
+        window.addEventListener('load', initializeGridGlowSystem);
+        // Recalculate and scale array mapping if viewport windows transform layout dimensions
+        let resizeDebounceTimer;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeDebounceTimer);
+            resizeDebounceTimer = setTimeout(initializeGridGlowSystem, 250);
+        });
 
         const rootStyle = document.documentElement.style;
         let ticking = false;
@@ -998,12 +1009,11 @@
 
         window.addEventListener('scroll', triggerScrollProcess, { passive: true });
         document.addEventListener('scroll', triggerScrollProcess, { passive: true });
-        window.addEventListener('resize', triggerScrollProcess, { passive: true });
 
         const observerOptions = {
             root: null,
             rootMargin: '0px',
-            threshold: 0.08
+            threshold: 0.05
         };
 
         const observer = new IntersectionObserver((entries, observer) => {
