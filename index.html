@@ -5,13 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Photon | STEM Team</title>
     
-    <!-- Link to the custom tab icon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-    <!-- Import the web component for interactive 3D rendering and animations -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 
-    <!-- Embedded Stylesheet -->
     <style>
         :root {
             --primary-yellow: #ffeb00;  
@@ -37,7 +34,7 @@
             letter-spacing: 0.5px;
         }
 
-        /* Ultra-Smooth Parallax Layer */
+        /* Parallax Layer 1: Deepest Background Gradient Canvas */
         #cinematic-bg {
             position: fixed;
             top: 0; 
@@ -50,14 +47,14 @@
                 #000000 65%,   
                 #000000 100%
             );
-            z-index: -2;
+            z-index: -3;
             pointer-events: none;
             transform: translateY(0) scale(1);
             transform-origin: top center;
             will-change: transform;
         }
 
-        /* Sharpened High-Tech Cyber Grid running throughout the entire site structure */
+        /* Parallax Layer 2: Deep Background Cyber Grid Array */
         #bg-grid-overlay {
             position: fixed;
             top: 0;
@@ -67,8 +64,10 @@
             background-image: linear-gradient(rgba(255, 235, 0, 0.015) 1px, transparent 1px),
                               linear-gradient(90deg, rgba(255, 235, 0, 0.015) 1px, transparent 1px);
             background-size: 50px 50px;
-            z-index: -1;
+            z-index: -2;
             pointer-events: none;
+            transform: translateY(0);
+            will-change: transform;
         }
 
         /* Scroll Animation Target Classes */
@@ -184,9 +183,10 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            background: transparent;
         }
 
-        /* Wraps text headers for fluid display fading rules */
+        /* Parallax Layer 4: Foreground Typography Layer Container */
         #hero-text-container {
             position: absolute;
             top: 0;
@@ -200,7 +200,7 @@
             z-index: 10;
             pointer-events: none;
             transition: opacity 0.8s cubic-bezier(0.25, 1, 0.5, 1), transform 0.8s ease;
-            will-change: opacity, transform;
+            will-change: transform, opacity;
         }
 
         #hero h2 {
@@ -211,7 +211,6 @@
             font-weight: 900;
             color: var(--primary-yellow); 
             text-shadow: 0 0 40px rgba(255, 235, 0, 0.25);
-            will-change: transform;
         }
 
         #hero p {
@@ -223,27 +222,27 @@
             margin: 0;
             opacity: 0.9;
             text-shadow: 0 4px 15px rgba(0,0,0,0.6);
-            will-change: transform;
         }
 
-        /* Fullscreen Canvas Frame Layout Container */
+        /* Parallax Layer 3: Midground 3D Model Framing Viewport Container */
         #car-viewer {
             width: 100%;
             height: 100%;
             position: absolute;
             top: 0;
             left: 0;
-            background: #020202;
+            background: transparent;
             z-index: 1;
             display: flex;
             flex-direction: column;
             overflow: hidden;
+            will-change: transform;
         }
 
         model-viewer {
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, #111111 0%, #010101 100%);
+            background: radial-gradient(circle at center, rgba(17, 17, 17, 0.8) 0%, rgba(1, 1, 1, 0.95) 100%);
             /* Locked out by default until studio mode mounts */
             pointer-events: none;
             --interpolation-decay: 5;
@@ -353,9 +352,12 @@
 
         /* Spacious Section Framework Layout */
         section {
+            position: relative;
+            z-index: 30; /* Pulls scrolling content cards explicitly above floating spatial layers */
             padding: 180px 60px;
             max-width: 1300px;
             margin: 0 auto;
+            background: transparent;
         }
 
         .section-title {
@@ -603,6 +605,8 @@
 
         /* Institutional Logos Banner Row */
         .institutional-logos {
+            position: relative;
+            z-index: 30;
             border-top: 1px solid rgba(255, 255, 255, 0.03);
             background-color: rgba(3, 3, 3, 0.9);
             padding: 80px 20px;
@@ -664,6 +668,8 @@
         }
 
         footer {
+            position: relative;
+            z-index: 30;
             text-align: center;
             padding: 50px 20px;
             font-size: 0.8rem;
@@ -676,14 +682,12 @@
 </head>
 <body>
 
-    <!-- 3D Layer Elements -->
     <div id="cinematic-bg"></div>
     <div id="bg-grid-overlay"></div>
 
     <nav>
         <div class="nav-left-cluster">
             <h1 onclick="window.location.href=window.location.pathname">PHOTON</h1>
-            <!-- Dynamic Top-Left Studio Workspace Trigger Controller -->
             <button class="studio-toggle-btn" id="studio-master-toggle">Explore Car</button>
         </div>
         <ul>
@@ -694,14 +698,12 @@
         </ul>
     </nav>
 
-    <!-- Entry Zone / Screen Bleed Framework Layout -->
     <header id="hero">
         <div id="hero-text-container">
             <h2>PHOTON</h2>
             <p>At the speed of light</p>
         </div>
         
-        <!-- Integrated Interactive 3D Model Card Space with Live Animation Triggers -->
         <div id="car-viewer">
             <model-viewer 
                 id="animated-car"
@@ -712,7 +714,6 @@
                 exposure="1.25">
             </model-viewer>
 
-            <!-- Bottom-Left Fullscreen Hardware Interface Controls -->
             <button class="fullscreen-toggle" id="fullscreen-widget" title="Toggle Fullscreen Render View">
                 <span>⛶</span> Fullscreen
             </button>
@@ -728,11 +729,9 @@
         </div>
     </header>
 
-    <!-- Team Roles Section -->
     <section id="team">
         <h3 class="section-title reveal">Team Roles</h3>
         
-        <!-- Engineering Division -->
         <div style="margin-bottom: 80px;">
             <h4 class="sub-tier-title reveal">Engineering Division</h4>
             <div class="team-grid">
@@ -756,7 +755,6 @@
             </div>
         </div>
 
-        <!-- Enterprise Division -->
         <div>
             <h4 class="sub-tier-title reveal">Enterprise Division</h4>
             <div class="team-grid">
@@ -789,7 +787,6 @@
         </div>
     </section>
 
-    <!-- Sponsorship Pipeline -->
     <section id="sponsors">
         <h3 class="section-title reveal">Our Partners</h3>
         <div class="sponsor-tier-container">
@@ -824,7 +821,6 @@
         </div>
     </section>
 
-    <!-- Documents -->
     <section id="portfolios">
         <h3 class="section-title reveal">Engineering & Enterprise</h3>
         <div class="portfolio-grid">
@@ -841,7 +837,6 @@
         </div>
     </section>
 
-    <!-- Dedicated Interactive Contact Section -->
     <section id="contact">
         <h3 class="section-title reveal">Connect With Us</h3>
         <div class="contact-box reveal">
@@ -850,7 +845,6 @@
         </div>
     </section>
 
-    <!-- Affiliated Institutional Logos Section -->
     <div class="institutional-logos">
         <h5>Affiliated Entities</h5>
         <div class="logo-flex">
@@ -891,21 +885,28 @@
         window.scrollTo(0, 0);
 
         const bgGradient = document.getElementById('cinematic-bg');
-        const heroTitle = document.querySelector('#hero h2');
-        const heroSubtitle = document.querySelector('#hero p');
+        const bgGrid = document.getElementById('bg-grid-overlay');
+        const carViewerContainer = document.getElementById('car-viewer');
+        const heroTextContainer = document.getElementById('hero-text-container');
 
-        // Multi-Layered Scroll Parallax Core 
+        // Multi-Layered Scroll Parallax Architecture
         let lastKnownScrollPosition = 0;
         let ticking = false;
 
         function updateParallax(scrollPos) {
-            bgGradient.style.transform = `translateY(-${scrollPos * 0.35}px) scale(${1 + (scrollPos * 0.00012)})`;
-            
-            if (scrollPos < window.innerHeight) {
-                const textFactor = scrollPos * 0.25;
-                const subFactor = scrollPos * 0.16;
-                heroTitle.style.transform = `translateY(${textFactor}px)`;
-                heroSubtitle.style.transform = `translateY(${subFactor}px)`;
+            // Only calculate positioning frames while the landing view is visible
+            if (scrollPos <= window.innerHeight * 1.5) {
+                // Layer 1: Background Gradient Canvas (Slow pull down + scaling expansion)
+                bgGradient.style.transform = `translateY(-${scrollPos * 0.2}px) scale(${1 + (scrollPos * 0.0001)})`;
+                
+                // Layer 2: Cyber Tech Grid Array (Downward glide path split)
+                bgGrid.style.transform = `translateY(-${scrollPos * 0.35}px)`;
+                
+                // Layer 3: Car Viewer Framing Container (Midground depth track layer)
+                carViewerContainer.style.transform = `translateY(${scrollPos * 0.22}px)`;
+                
+                // Layer 4: Foreground Typography Frame (Fastest slide value clearance)
+                heroTextContainer.style.transform = `translateY(${scrollPos * 0.55}px)`;
             }
         }
 
@@ -946,17 +947,16 @@
            ========================================================================== */
         const carViewer = document.getElementById('animated-car');
         const studioToggle = document.getElementById('studio-master-toggle');
-        const heroTextContainer = document.getElementById('hero-text-container');
         const fullscreenWidget = document.getElementById('fullscreen-widget');
         
         let orbitTimeline = 0;
         let isStudioInteractive = false;
 
         function renderCinematicFlyby() {
-            // Cut execution if user currently holds active manual control override values
+            // Cut execution loop if user holds active manual interactive control overrides
             if (isStudioInteractive) return;
 
-            // Refined, slow background cinematic pacing movement
+            // Ambient background cinematic orbit loop parameters
             orbitTimeline += 0.0022; 
 
             const horizontalOrbit = (orbitTimeline * 180 / Math.PI) % 360; 
@@ -983,34 +983,31 @@
             isStudioInteractive = !isStudioInteractive;
 
             if (isStudioInteractive) {
-                // Unlock rendering pipelines & mount hardware capture interceptors
+                // Unlock rendering pipelines & mount hardware input listeners
                 carViewer.setAttribute('camera-controls', '');
                 carViewer.style.pointerEvents = 'auto';
                 
-                // Refined fading transitions to keep workspace completely open
+                // Hide overlapping text layers to keep workspace open
                 heroTextContainer.style.opacity = '0';
-                heroTextContainer.style.transform = 'scale(0.96)';
                 
-                // Show bottom-left helper widgets
+                // Show bottom-left helper fullscreen widget controls
                 fullscreenWidget.classList.add('visible-widget');
                 
-                // Mutate button layout design
+                // Transition navigation switch tracking style
                 studioToggle.textContent = 'Lock Canvas';
                 studioToggle.classList.add('active-studio');
             } else {
-                // Strip interactions out completely and return canvas to ambient layer state
+                // Strip interactions out and lock canvas back into background layer
                 carViewer.removeAttribute('camera-controls');
                 carViewer.style.pointerEvents = 'none';
                 
                 heroTextContainer.style.opacity = '1';
-                heroTextContainer.style.transform = 'scale(1)';
-                
                 fullscreenWidget.classList.remove('visible-widget');
                 
                 studioToggle.textContent = 'Explore Car';
                 studioToggle.classList.remove('active-studio');
 
-                // Re-trigger calculation frames loops safely
+                // Return handling back to cinematic flight paths smoothly
                 requestAnimationFrame(renderCinematicFlyby);
             }
         });
