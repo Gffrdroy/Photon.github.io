@@ -13,10 +13,13 @@
         :root {
             --primary-yellow: #ffeb00;  
             --deep-black: #050505;      
-            --card-bg: rgba(8, 8, 8, 0.65);
+            --card-bg: rgba(8, 8, 8, 0.75);
             --text-light: #ffffff;
             --text-muted: #aaaaaa;
             --text-dark: #000000;
+            
+            /* High-performance scroll coordinate tracking primitive */
+            --scroll-y: 0px;
         }
 
         html {
@@ -33,40 +36,46 @@
             letter-spacing: 0.5px;
         }
 
-        /* PARALLAX LAYER 1: Deepest Background Gradient (Over-scaled to prevent movement clipping) */
+        /* PARALLAX LAYER 1: Deep Cinematic Gradient Plane
+           Moves counter-directionally downward at a smooth 0.2x speed scalar.
+           Overscaled and offset to guarantee no raw edge clipping occurs.
+        */
         #cinematic-bg {
             position: fixed;
-            top: -15vh; 
+            top: -40vh; 
             left: 0;
             width: 100vw;
-            height: 130vh; 
+            height: 180vh; 
             background: linear-gradient(180deg, 
                 #ffeb00 0%, 
-                #ffeb00 15%,   
-                #000000 65%,   
-                #000000 100%
+                #ffeb00 12%,   
+                #000000 55%,   
+                #000000 100
             );
             z-index: -3;
             pointer-events: none;
-            transform: translateY(0) scale(1);
-            transform-origin: top center;
             will-change: transform;
+            transform: translateY(calc(var(--scroll-y) * 0.2)) scale(1.05);
+            transform-origin: center center;
         }
 
-        /* PARALLAX LAYER 2: Deep Background Cyber Grid Array */
+        /* PARALLAX LAYER 2: High-Visibility Cyber Grid Matrix
+           Moves counter-directionally at a faster 0.45x scalar speed.
+           Increased alpha transparency to make layout movement punchy and obvious.
+        */
         #bg-grid-overlay {
             position: fixed;
-            top: -15vh;
+            top: -40vh;
             left: 0;
             width: 100vw;
-            height: 130vh;
-            background-image: linear-gradient(rgba(255, 235, 0, 0.035) 1px, transparent 1px),
-                              linear-gradient(90deg, rgba(255, 235, 0, 0.035) 1px, transparent 1px);
-            background-size: 60px 60px;
+            height: 180vh;
+            background-image: linear-gradient(rgba(255, 235, 0, 0.12) 1px, transparent 1px),
+                              linear-gradient(90deg, rgba(255, 235, 0, 0.12) 1px, transparent 1px);
+            background-size: 50px 50px;
             z-index: -2;
             pointer-events: none;
-            transform: translateY(0);
             will-change: transform;
+            transform: translateY(calc(var(--scroll-y) * 0.45));
         }
 
         /* Scroll Animation Reveal Targets */
@@ -88,10 +97,10 @@
             justify-content: space-between;
             align-items: center;
             padding: 30px 60px;
-            background-color: rgba(0, 0, 0, 0.85); 
+            background-color: rgba(0, 0, 0, 0.9); 
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px); 
-            border-bottom: 1px solid rgba(255, 235, 0, 0.1);
+            border-bottom: 1px solid rgba(255, 235, 0, 0.15);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -199,7 +208,8 @@
             z-index: 10;
             pointer-events: none;
             transition: opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1);
-            will-change: transform, opacity;
+            will-change: transform;
+            transform: translateY(calc(var(--scroll-y) * 0.15));
         }
 
         #hero h2 {
@@ -236,12 +246,18 @@
             flex-direction: column;
             overflow: hidden;
             will-change: transform;
+            transform: translateY(calc(var(--scroll-y) * 0.35));
         }
 
+        /* CRITICAL REPAIR: Background set to transparent.
+           This destroys the dark occlusion layer so that the parallax grid and 
+           gradient are completely visible underneath and behind the 3D car asset.
+        */
         model-viewer {
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(17, 17, 17, 0.75) 0%, rgba(1, 1, 1, 0.95) 100%);
+            background-color: transparent !important;
+            background: transparent !important;
             pointer-events: none;
             --interpolation-decay: 5;
             transition: pointer-events 0.3s ease;
@@ -253,8 +269,8 @@
             bottom: 140px; 
             left: 60px;
             z-index: 25;
-            background: rgba(10, 10, 10, 0.6);
-            border: 1px solid rgba(255, 235, 0, 0.25);
+            background: rgba(10, 10, 10, 0.75);
+            border: 1px solid rgba(255, 235, 0, 0.3);
             color: #ffffff;
             padding: 12px 24px;
             border-radius: 4px;
@@ -404,7 +420,7 @@
             background: var(--card-bg);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-radius: 12px;
             overflow: hidden;
             text-align: center;
@@ -415,7 +431,7 @@
 
         .team-card:hover {
             transform: translateY(-12px);
-            border-color: rgba(255, 235, 0, 0.25);
+            border-color: rgba(255, 235, 0, 0.35);
             box-shadow: 0 30px 50px rgba(0, 0, 0, 0.8);
         }
 
@@ -430,7 +446,7 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .member-info {
@@ -485,13 +501,13 @@
 
         .sponsor-card {
             background: rgba(255, 255, 255, 0.01);
-            border: 1px dashed rgba(255, 255, 255, 0.08);
+            border: 1px dashed rgba(255, 255, 255, 0.15);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
             transition: background 0.4s, border-style 0.4s, border-color 0.4s, color 0.4s;
-            color: #555555;
+            color: #666666;
             font-weight: 700;
             font-size: 0.9rem;
             text-transform: uppercase;
@@ -503,7 +519,7 @@
         .silver .sponsor-card { width: 220px; height: 110px; font-size: 0.8rem; }
 
         .sponsor-card:hover {
-            background: rgba(255, 235, 0, 0.02);
+            background: rgba(255, 235, 0, 0.03);
             border-style: solid;
             border-color: var(--primary-yellow);
             color: var(--text-light);
@@ -523,7 +539,7 @@
             padding: 55px;
             border-radius: 12px;
             width: 340px;
-            border: 1px solid rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.05);
             border-top: 4px solid var(--primary-yellow);
             transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s;
         }
@@ -581,7 +597,7 @@
             background: var(--card-bg);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 235, 0, 0.1);
+            border: 1px solid rgba(255, 235, 0, 0.15);
             border-radius: 12px;
             padding: 70px 50px;
             box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7);
@@ -598,8 +614,8 @@
         .institutional-logos {
             position: relative;
             z-index: 30;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
-            background-color: rgba(3, 3, 3, 0.9);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            background-color: rgba(3, 3, 3, 0.95);
             padding: 80px 20px;
             text-align: center;
         }
@@ -665,7 +681,7 @@
             padding: 50px 20px;
             font-size: 0.8rem;
             color: #555555;
-            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
             background-color: #000000;
             letter-spacing: 1.5px;
         }
@@ -873,51 +889,30 @@
         }
         window.scrollTo(0, 0);
 
-        const bgGradient = document.getElementById('cinematic-bg');
-        const bgGrid = document.getElementById('bg-grid-overlay');
-        const carViewerContainer = document.getElementById('car-viewer');
-        const heroTextContainer = document.getElementById('hero-text-container');
-
+        const rootStyle = document.documentElement.style;
         let ticking = false;
 
-        // HIGH-PERFORMANCE MULTI-PLANE SYSTEM
-        function updateParallax(scrollPos) {
-            // Compute translations only if landing hero layers remain within active spatial sight
-            if (scrollPos <= window.innerHeight * 1.5) {
-                
-                // LAYER 1: Deep Gradient Background (Fixed frame tracking - glides slowest)
-                bgGradient.style.transform = `translateY(-${scrollPos * 0.15}px) scale(${1 + (scrollPos * 0.0001)})`;
-                
-                // LAYER 2: Cyber Grid Lines (Fixed frame tracking - shifts past gradient map background)
-                bgGrid.style.transform = `translateY(-${scrollPos * 0.35}px)`;
-                
-                // LAYER 3: Car Viewer Framing Box (Absolute layout context - floats on standalone plane)
-                carViewerContainer.style.transform = `translateY(${scrollPos * 0.40}px)`;
-                
-                // LAYER 4: Foreground Main Typography Headers (Absolute layout context - flies away fastest)
-                heroTextContainer.style.transform = `translateY(${scrollPos * 0.20}px)`;
-            }
-        }
-
-        // Cross-environmental parsing handler (intercepts browser windows and sandboxed container scroll layers)
-        function captureScrollValue() {
-            return window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+        // ADVANCED HIERARCHICAL PARALLAX SCROLL CONTROLLER
+        function processScrollMatrix() {
+            // Evaluates multi-layered scroll offsets cleanly inside browser window or sandboxed iFrames
+            const rawTop = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+            
+            // Updates global CSS Custom Property channel to drive smooth hardware-accelerated layouts
+            rootStyle.setProperty('--scroll-y', `${rawTop}px`);
+            ticking = false;
         }
 
         function triggerScrollProcess() {
-            const currentScrollPos = captureScrollValue();
             if (!ticking) {
-                window.requestAnimationFrame(() => {
-                    updateParallax(currentScrollPos);
-                    ticking = false;
-                });
+                window.requestAnimationFrame(processScrollMatrix);
                 ticking = true;
             }
         }
 
-        // Dual-registration pipeline captures native desktop windowing and sandboxed container scroll environments
+        // Dual-registration pipeline captures native window scrolling and isolated container viewports
         window.addEventListener('scroll', triggerScrollProcess, { passive: true });
         document.addEventListener('scroll', triggerScrollProcess, { passive: true });
+        window.addEventListener('resize', triggerScrollProcess, { passive: true });
 
         // Scroll Intersection Reveal Elements
         const observerOptions = {
@@ -945,6 +940,7 @@
         const carViewer = document.getElementById('animated-car');
         const studioToggle = document.getElementById('studio-master-toggle');
         const fullscreenWidget = document.getElementById('fullscreen-widget');
+        const heroTextContainer = document.getElementById('hero-text-container');
         
         let orbitTimeline = 0;
         let isStudioInteractive = false;
